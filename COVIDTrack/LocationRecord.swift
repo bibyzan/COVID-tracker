@@ -41,13 +41,34 @@ class LocationRecord: NSObject, NSCoding {
             let fips = coder.decodeObject(forKey: LocationRecordKeys.fips) as? String,
             let cases = coder.decodeObject(forKey: LocationRecordKeys.cases) as? Int,
             let deaths = coder.decodeObject(forKey: LocationRecordKeys.deaths) as? Int {
-            self.init(date, county, state, fips, cases, deaths)
+            self.init(date, county == "" ? nil : county, state, fips, cases, deaths)
         } else {
             return nil
         }
     }
     
-    init(_ date: Date,_ county: String,_ state: String,_ fips: String,_ cases: Int,_ deaths: Int) {
+    convenience init?(csvStr: String) {
+        let props = csvStr.components(separatedBy: ",")
+        if props.count == 0 {
+            return nil
+        }
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "yyyy'-'MM'-'dd'"
+        let date = dateFormatter.date(from: props[0])
+        if let date = date {
+            if props.count == 5, let cases = Int(props[3]), let deaths = Int(props[4]) {
+                self.init(date, nil, props[1], props[2], cases, deaths)
+            } else if props.count == 6, let cases = Int(props[4]), let deaths = Int(props[5]) {
+                self.init(date, props[1], props[2], props[3], cases, deaths)
+            } else {
+                return nil
+            }
+        } else {
+            return nil
+        }
+    }
+    
+    init(_ date: Date,_ county: String?,_ state: String,_ fips: String,_ cases: Int,_ deaths: Int) {
         self.date = date
         self.county = county
         self.state = state
@@ -55,4 +76,5 @@ class LocationRecord: NSObject, NSCoding {
         self.cases = cases
         self.deaths = deaths
     }
+    
 }

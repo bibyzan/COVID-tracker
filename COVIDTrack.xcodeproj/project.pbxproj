@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		B5429EE9243AA67100686A67 /* LocationGroup.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5429EE8243AA67100686A67 /* LocationGroup.swift */; };
 		B5C5A40C243A7C9600D14443 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5C5A40B243A7C9600D14443 /* AppDelegate.swift */; };
 		B5C5A40E243A7C9600D14443 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5C5A40D243A7C9600D14443 /* SceneDelegate.swift */; };
 		B5C5A410243A7C9600D14443 /* RootViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5C5A40F243A7C9600D14443 /* RootViewController.swift */; };
@@ -16,6 +17,9 @@
 		B5C5A423243A7C9700D14443 /* COVIDTrackTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5C5A422243A7C9700D14443 /* COVIDTrackTests.swift */; };
 		B5C5A42E243A7C9700D14443 /* COVIDTrackUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5C5A42D243A7C9700D14443 /* COVIDTrackUITests.swift */; };
 		B5C5A43D243A80B800D14443 /* LocationRecord.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5C5A43C243A80B800D14443 /* LocationRecord.swift */; };
+		B5C5A43F243A926600D14443 /* AppManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5C5A43E243A926600D14443 /* AppManager.swift */; };
+		B5C5A441243A929A00D14443 /* StorageService.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5C5A440243A929A00D14443 /* StorageService.swift */; };
+		B5C5A443243A96C700D14443 /* ApiService.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5C5A442243A96C700D14443 /* ApiService.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -36,6 +40,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		B5429EE8243AA67100686A67 /* LocationGroup.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationGroup.swift; sourceTree = "<group>"; };
 		B5C5A408243A7C9600D14443 /* COVIDTrack.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = COVIDTrack.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		B5C5A40B243A7C9600D14443 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		B5C5A40D243A7C9600D14443 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -51,6 +56,9 @@
 		B5C5A42D243A7C9700D14443 /* COVIDTrackUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = COVIDTrackUITests.swift; sourceTree = "<group>"; };
 		B5C5A42F243A7C9700D14443 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		B5C5A43C243A80B800D14443 /* LocationRecord.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationRecord.swift; sourceTree = "<group>"; };
+		B5C5A43E243A926600D14443 /* AppManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppManager.swift; sourceTree = "<group>"; };
+		B5C5A440243A929A00D14443 /* StorageService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StorageService.swift; sourceTree = "<group>"; };
+		B5C5A442243A96C700D14443 /* ApiService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ApiService.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -109,6 +117,10 @@
 				B5C5A416243A7C9700D14443 /* LaunchScreen.storyboard */,
 				B5C5A419243A7C9700D14443 /* Info.plist */,
 				B5C5A43C243A80B800D14443 /* LocationRecord.swift */,
+				B5429EE8243AA67100686A67 /* LocationGroup.swift */,
+				B5C5A43E243A926600D14443 /* AppManager.swift */,
+				B5C5A442243A96C700D14443 /* ApiService.swift */,
+				B5C5A440243A929A00D14443 /* StorageService.swift */,
 			);
 			path = COVIDTrack;
 			sourceTree = "<group>";
@@ -263,8 +275,12 @@
 			buildActionMask = 2147483647;
 			files = (
 				B5C5A410243A7C9600D14443 /* RootViewController.swift in Sources */,
+				B5C5A43F243A926600D14443 /* AppManager.swift in Sources */,
 				B5C5A40C243A7C9600D14443 /* AppDelegate.swift in Sources */,
+				B5C5A441243A929A00D14443 /* StorageService.swift in Sources */,
+				B5429EE9243AA67100686A67 /* LocationGroup.swift in Sources */,
 				B5C5A40E243A7C9600D14443 /* SceneDelegate.swift in Sources */,
+				B5C5A443243A96C700D14443 /* ApiService.swift in Sources */,
 				B5C5A43D243A80B800D14443 /* LocationRecord.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
