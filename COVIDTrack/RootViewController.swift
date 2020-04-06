@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import UserNotifications
 
 class RootViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
     var segmentGeo = UISegmentedControl()
@@ -15,28 +16,23 @@ class RootViewController: UIViewController, UITableViewDelegate, UITableViewData
     
     override func viewDidLoad() {
         super.viewDidLoad()
+
+        UNUserNotificationCenter.current().requestAuthorization(options: [.alert, .sound, .badge]) { success, err in
+            print(success, err)
+        }
         
         self.segmentGeo.addTarget(self, action: #selector(self.segmentGeoDidChange(_:)), for: .valueChanged)
         self.tableLocations.delegate = self
         self.tableLocations.dataSource = self
         
         self.view.addSubview(tableLocations)
-        
-        AppManager.api.checkStates() { error, records in
-            if let error = error {
-                print(error)
-            }
-            var dic: [String: LocationGroup] = [:]
-            for record in records {
-                if let existingGroup = dic[record.state] {
-                    existingGroup.records.append(record)
-                } else {
-                    dic[record.state] = LocationGroup(record.state, [record])
+        AppManager.checkWatchedGroups() { error, count, message, groups in
+            if count > 0 {
+                let alert = UIAlertController(title: "You have \(count) updates", message: message, preferredStyle: .alert)
+                alert.addAction(UIAlertAction(title: "Ok", style: .default))
+                DispatchQueue.main.async {
+                    self.present(alert, animated: true)
                 }
-            }
-            var groups: [LocationGroup] = []
-            for group in dic.values {
-                groups.append(group)
             }
             self.groups = groups
             DispatchQueue.main.async {

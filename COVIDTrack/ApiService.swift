@@ -15,7 +15,7 @@ enum COVIDApiError: Error {
 class ApiService {
     static let rawCSVBaseUrl = "https://raw.githubusercontent.com/nytimes/covid-19-data/master/"
     
-    private func sendGet(to endpoint: String,_ completion: @escaping (Error?, [LocationRecord])->()) {
+    private func sendGet(to endpoint: String,_ completion: @escaping (Error?, [LocationGroup])->()) {
         let url = URL(string: endpoint)!
         let session = URLSession.shared
         let request = NSMutableURLRequest(url: url)
@@ -37,8 +37,19 @@ class ApiService {
                             print("record \(s) parsing failed")
                         }
                     }
-                    
-                    completion(nil, records)
+                    var dic: [String: LocationGroup] = [:]
+                    for record in records {
+                        if let existingGroup = dic[record.state] {
+                            existingGroup.records.append(record)
+                        } else {
+                            dic[record.state] = LocationGroup(record.state, [record])
+                        }
+                    }
+                    var groups: [LocationGroup] = []
+                    for group in dic.values {
+                        groups.append(group)
+                    }
+                    completion(nil, groups)
                 } else {
                     completion(COVIDApiError.dataParsingFailed, [])
                 }
@@ -47,11 +58,11 @@ class ApiService {
         task.resume()
     }
     
-    func checkStates(_ completion: @escaping (Error?, [LocationRecord])->()) {
+    func checkStates(_ completion: @escaping (Error?, [LocationGroup])->()) {
         self.sendGet(to: ApiService.rawCSVBaseUrl + "us-states.csv", completion)
     }
     
-    func checkCounties(_ completion: @escaping (Error?, [LocationRecord])->()) {
+    func checkCounties(_ completion: @escaping (Error?, [LocationGroup])->()) {
         self.sendGet(to: ApiService.rawCSVBaseUrl + "us-counties.csv", completion)
     }
 }

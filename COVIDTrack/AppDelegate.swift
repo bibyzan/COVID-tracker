@@ -18,13 +18,28 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     func application(_ application: UIApplication,
                      performFetchWithCompletionHandler completionHandler:
                              @escaping (UIBackgroundFetchResult) -> Void) {
+        AppManager.checkWatchedGroups() { _, count, message, _ in
+            if count > 0 {
+                let trigger = UNTimeIntervalNotificationTrigger(timeInterval: 5, repeats: false)
+                let content = UNMutableNotificationContent()
+                content.title = "You have \(count) updates"
+                content.body = message
+                content.sound = UNNotificationSound.default
 
-        // Check for new data.
-        /*if let newData = fetchUpdates() {
-            addDataToFeed(newData: newData)
-            completionHandler(.newData)
+                let request = UNNotificationRequest(identifier: "COVID Update", content: content, trigger: trigger)
+
+                UNUserNotificationCenter.current().add(request) {(error) in
+                    if let error = error {
+                        print("Uh oh! We had an error: \(error)")
+                        completionHandler(.failed)
+                    } else {
+                        completionHandler(.newData)
+                    }
+                }
+            } else {
+                completionHandler(.noData)
+            }
         }
-        completionHandler(.noData)*/
     }
 
     // MARK: UISceneSession Lifecycle
