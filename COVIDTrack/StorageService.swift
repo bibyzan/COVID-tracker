@@ -9,8 +9,6 @@
 import Foundation
 
 class StorageService {
-    static let defaults = UserDefaults.standard
-
     private var _watchedGroups: [LocationGroup]?
     func getWatchedGroups()->[LocationGroup] {
         if let watchedGroups = self._watchedGroups {

@@ -54,15 +54,12 @@ class RootViewController: UIViewController, UITableViewDelegate, UITableViewData
         tableView.deselectRow(at: indexPath, animated: true)
         let selectedGroup = self.groups[indexPath.row]
         if AppManager.storage.isWatched(selectedGroup) {
-            print("removing group")
             AppManager.storage.removeGroup(selectedGroup)
         } else {
-            print("adding group")
             AppManager.storage.addGroup(selectedGroup)
         }
-        // self.tableLocations.dequeueReusableCell(withIdentifier: selectedGroup.title)?.detailTextLabel?.text = selectedGroup.info()
         tableView.beginUpdates()
-        tableView.reloadRows(at: [indexPath], with: .automatic) //try other animations
+        tableView.reloadRows(at: [indexPath], with: .automatic)
         tableView.endUpdates()
     }
 
