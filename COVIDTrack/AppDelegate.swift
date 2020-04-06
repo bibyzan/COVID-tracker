@@ -19,41 +19,21 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                      performFetchWithCompletionHandler completionHandler:
                              @escaping (UIBackgroundFetchResult) -> Void) {
         AppManager.checkWatchedGroups() { _, count, message, _ in
-            if count > 0 {
-                let trigger = UNTimeIntervalNotificationTrigger(timeInterval: 1, repeats: false)
-                let content = UNMutableNotificationContent()
-                content.title = "You have \(count) updates"
-                content.body = message
-                content.sound = UNNotificationSound.default
+            let trigger = UNTimeIntervalNotificationTrigger(timeInterval: 1, repeats: false)
+            let content = UNMutableNotificationContent()
+            content.title = "You have \(count) updates"
+            content.body = message
+            content.sound = UNNotificationSound.default
 
-                let request = UNNotificationRequest(identifier: "COVID Update", content: content, trigger: trigger)
+            let request = UNNotificationRequest(identifier: "COVID Update", content: content, trigger: trigger)
 
-                UNUserNotificationCenter.current().add(request) {(error) in
-                    if let error = error {
-                        print("Uh oh! We had an error: \(error)")
-                        completionHandler(.failed)
-                    } else {
-                        completionHandler(.newData)
-                    }
+            UNUserNotificationCenter.current().add(request) {(error) in
+                if let error = error {
+                    print("Uh oh! We had an error: \(error)")
+                    completionHandler(.failed)
+                } else {
+                    completionHandler(.newData)
                 }
-            } else {
-                let trigger = UNTimeIntervalNotificationTrigger(timeInterval: 1, repeats: false)
-                let content = UNMutableNotificationContent()
-                content.title = "You have \(count) updates"
-                content.body = message
-                content.sound = UNNotificationSound.default
-
-                let request = UNNotificationRequest(identifier: "COVID Update", content: content, trigger: trigger)
-
-                UNUserNotificationCenter.current().add(request) {(error) in
-                    if let error = error {
-                        print("Uh oh! We had an error: \(error)")
-                        completionHandler(.failed)
-                    } else {
-                        completionHandler(.newData)
-                    }
-                }
-                completionHandler(.noData)
             }
         }
     }
