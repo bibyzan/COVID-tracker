@@ -38,11 +38,12 @@ class LocationRecord: NSObject, NSCoding {
         if let date = coder.decodeObject(forKey: LocationRecordKeys.date) as? Date,
             let county = coder.decodeObject(forKey: LocationRecordKeys.county) as? String,
             let state = coder.decodeObject(forKey: LocationRecordKeys.state) as? String,
-            let fips = coder.decodeObject(forKey: LocationRecordKeys.fips) as? String,
-            let cases = coder.decodeObject(forKey: LocationRecordKeys.cases) as? Int,
-            let deaths = coder.decodeObject(forKey: LocationRecordKeys.deaths) as? Int {
+            let fips = coder.decodeObject(forKey: LocationRecordKeys.fips) as? String {
+            let cases = coder.decodeInteger(forKey: LocationRecordKeys.cases)
+            let deaths = coder.decodeInteger(forKey: LocationRecordKeys.deaths)
             self.init(date, county == "" ? nil : county, state, fips, cases, deaths)
         } else {
+            print("coder init failed")
             return nil
         }
     }

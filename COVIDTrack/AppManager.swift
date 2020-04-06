@@ -10,4 +10,10 @@ import Foundation
 
 class AppManager {
     static let api = ApiService()
+    static let storage = StorageService()
+
+    static func checkWatchedGroups() {
+        let watchedGroups = storage.getWatchedGroups()
+
+    }
 }

@@ -10,12 +10,21 @@ import UIKit
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
-
-
-
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
-        // Override point for customization after application launch.
+        UIApplication.shared.setMinimumBackgroundFetchInterval(3600 * 6)
         return true
+    }
+
+    func application(_ application: UIApplication,
+                     performFetchWithCompletionHandler completionHandler:
+                             @escaping (UIBackgroundFetchResult) -> Void) {
+
+        // Check for new data.
+        /*if let newData = fetchUpdates() {
+            addDataToFeed(newData: newData)
+            completionHandler(.newData)
+        }
+        completionHandler(.noData)*/
     }
 
     // MARK: UISceneSession Lifecycle

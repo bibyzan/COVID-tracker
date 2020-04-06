@@ -11,7 +11,7 @@ import UIKit
 class RootViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
     var segmentGeo = UISegmentedControl()
     var tableLocations = UITableView()
-    var records: [LocationRecord] = []
+    var groups: [LocationGroup] = []
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -26,21 +26,19 @@ class RootViewController: UIViewController, UITableViewDelegate, UITableViewData
             if let error = error {
                 print(error)
             }
-            var dic: [String: LocationRecord] = [:]
+            var dic: [String: LocationGroup] = [:]
             for record in records {
-                if let existingRecord = dic[record.state] {
-                    if existingRecord != record && record.date.timeIntervalSinceNow < existingRecord.date.timeIntervalSinceNow {
-                        dic[record.state] = record
-                    }
+                if let existingGroup = dic[record.state] {
+                    existingGroup.records.append(record)
                 } else {
-                    dic[record.state] = record
+                    dic[record.state] = LocationGroup(record.state, [record])
                 }
             }
-            var filteredRecords: [LocationRecord] = []
-            for val in dic.values {
-                filteredRecords.append(val)
+            var groups: [LocationGroup] = []
+            for group in dic.values {
+                groups.append(group)
             }
-            self.records = filteredRecords
+            self.groups = groups
             DispatchQueue.main.async {
                 self.tableLocations.reloadData()
             }
@@ -55,19 +53,35 @@ class RootViewController: UIViewController, UITableViewDelegate, UITableViewData
     @objc func segmentGeoDidChange(_ sender: UISegmentedControl) {
         print("segment changed")
     }
-    
+
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        tableView.deselectRow(at: indexPath, animated: true)
+        let selectedGroup = self.groups[indexPath.row]
+        if AppManager.storage.isWatched(selectedGroup) {
+            print("removing group")
+            AppManager.storage.removeGroup(selectedGroup)
+        } else {
+            print("adding group")
+            AppManager.storage.addGroup(selectedGroup)
+        }
+        // self.tableLocations.dequeueReusableCell(withIdentifier: selectedGroup.title)?.detailTextLabel?.text = selectedGroup.info()
+        tableView.beginUpdates()
+        tableView.reloadRows(at: [indexPath], with: .automatic) //try other animations
+        tableView.endUpdates()
+    }
+
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return records.count
+        self.groups.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let record = self.records[indexPath.row]
-        if let cell = tableView.dequeueReusableCell(withIdentifier: record.description) {
+        let group = self.groups[indexPath.row]
+        if let cell = tableView.dequeueReusableCell(withIdentifier: group.title) {
             return cell
         }
-        let cell = UITableViewCell(style: .subtitle, reuseIdentifier: record.description)
-        cell.textLabel?.text = record.state
-        cell.detailTextLabel?.text = "cases: \(record.cases) deaths: \(record.deaths)"
+        let cell = UITableViewCell(style: .subtitle, reuseIdentifier: group.title)
+        cell.textLabel?.text = group.title
+        cell.detailTextLabel?.text = group.info()
         return cell
     }
 }
